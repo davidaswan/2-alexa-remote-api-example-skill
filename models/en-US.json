@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "template two",
+      "invocationName": "Greenhouse Temperature",
       "types": [],
       "intents": [
         {

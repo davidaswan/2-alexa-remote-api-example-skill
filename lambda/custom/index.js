@@ -12,23 +12,17 @@ const GetRemoteDataHandler = {
   async handle(handlerInput) {
     let outputSpeech = 'This is the default message.';
 
-    await getRemoteData('http://api.open-notify.org/astros.json')
+    await getRemoteData('https://api.thingspeak.com/channels/1381277/feeds.json?results=5')
       .then((response) => {
         const data = JSON.parse(response);
-        outputSpeech = `There are currently ${data.people.length} astronauts in space. `;
-        for (let i = 0; i < data.people.length; i += 1) {
-          if (i === 0) {
-            // first record
-            outputSpeech = `${outputSpeech}Their names are: ${data.people[i].name}, `;
-          } else if (i === data.people.length - 1) {
-            // last record
-            outputSpeech = `${outputSpeech}and ${data.people[i].name}.`;
-          } else {
-            // middle record(s)
-            outputSpeech = `${outputSpeech + data.people[i].name}, `;
-          }
+        outputSpeech = `The greenhouse temperature is `;
+        for (let i = 0; i < data.feeds.length; i += 1) {
+            if (data.feeds[i].field2 !== null) {
+                outputSpeech = `${outputSpeech + data.feeds[i].field2} degrees celsius.`;
+            }
         }
       })
+      
       .catch((err) => {
         console.log(`ERROR: ${err.message}`);
         // set an optional error message here
